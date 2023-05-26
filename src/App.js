@@ -1,5 +1,7 @@
+import DiaryEditor from "./components/DiaryEditor";
+
 function App() {
-  return <div></div>;
+  return <DiaryEditor></DiaryEditor>;
 }
 
 export default App;
