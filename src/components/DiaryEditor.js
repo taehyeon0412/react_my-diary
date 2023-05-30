@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useRef, useState } from "react";
 import styled from "styled-components";
 
 const Wrapper = styled.div`
@@ -13,7 +13,7 @@ const Title = styled.h2`
   margin-bottom: 1rem;
 `;
 
-const WriteInput = styled.input`
+const TitleInput = styled.input`
   margin-bottom: 1rem;
 `;
 
@@ -21,13 +21,27 @@ const TextBox = styled.div`
   margin-bottom: 1rem;
 `;
 
-const TextBoxWrite = styled.textarea``;
+const TextInput = styled.textarea`
+  width: 30rem;
+  height: 15rem;
+`;
 
-const EmotionBox = styled.div``;
+const EmotionBox = styled.div`
+  margin-bottom: 1rem;
+`;
 
-const SaveBtn = styled.button``;
+const SelectBox = styled.select`
+  width: 10rem;
+`;
+
+const SaveBtn = styled.button`
+  width: 30rem;
+`;
 
 function DiaryEditor() {
+  const titleInput = useRef();
+  const contentInput = useRef();
+
   const [state, setState] = useState({
     title: "",
     content: "",
@@ -45,14 +59,26 @@ function DiaryEditor() {
 
   const handleSave = () => {
     console.log(state);
+    if (state.title.length < 1) {
+      titleInput.current.focus();
+      return;
+    }
+
+    if (state.content.length < 5) {
+      contentInput.current.focus();
+      return;
+    }
+
     alert("저장 성공");
   };
+  //저장
 
   return (
     <Wrapper>
       <TitleBox>
         <Title>오늘의 일기</Title>
-        <WriteInput
+        <TitleInput
+          ref={titleInput}
           name="title"
           value={state.author}
           onChange={handleChangeState}
@@ -60,7 +86,8 @@ function DiaryEditor() {
       </TitleBox>
 
       <TextBox>
-        <TextBoxWrite
+        <TextInput
+          ref={contentInput}
           name="content"
           value={state.content}
           onChange={handleChangeState}
@@ -68,7 +95,8 @@ function DiaryEditor() {
       </TextBox>
 
       <EmotionBox>
-        <select
+        <span>오늘의 감정점수 : </span>
+        <SelectBox
           name="emotion"
           value={state.emotion}
           onChange={handleChangeState}
@@ -78,9 +106,10 @@ function DiaryEditor() {
           <option value={3}>3</option>
           <option value={4}>4</option>
           <option value={5}>5</option>
-        </select>
-        <SaveBtn onClick={handleSave}>저장</SaveBtn>
+        </SelectBox>
       </EmotionBox>
+
+      <SaveBtn onClick={handleSave}>저장</SaveBtn>
     </Wrapper>
   );
 }
