@@ -1,18 +1,47 @@
-import DiaryItem from "./DiaryItem";
+import { styled } from "styled-components";
 
-function DiaryItem({ diaryList }) {
-  console.log(diaryList);
+const ItemDiv = styled.div`
+  background-color: rgb(240, 240, 240);
+  margin-bottom: 10px;
+  padding: 20px;
+`;
+
+const ItemTitle = styled.div`
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 10px;
+  gap: 10px;
+`;
+
+const ItemTitleSpan = styled.span``;
+
+const ItemTitleDate = styled.span`
+  border-bottom: 1px solid gray;
+  padding-bottom: 10px;
+  margin-bottom: 10px;
+  color: gray;
+  font-size: 0.9rem;
+`;
+
+const ItemContents = styled.div`
+  margin-bottom: 30px;
+  margin-top: 30px;
+  font-weight: bold;
+`;
+
+function DiaryItem({ title, content, create_date, emotion, id }) {
   return (
-    <div>
-      <h2>일기 리스트</h2>
-      <h4>{diaryList.length}개의 일기가 있습니다.</h4>
+    <ItemDiv>
+      <ItemTitle>
+        <ItemTitleSpan>
+          제목 : {title} | 감정점수 : {emotion}
+        </ItemTitleSpan>
 
-      <div>
-        {diaryList.map((it) => (
-          <DiaryItem key={it.id} {...it} />
-        ))}
-      </div>
-    </div>
+        <ItemTitleDate>{new Date(create_date).toLocaleString()}</ItemTitleDate>
+      </ItemTitle>
+
+      <ItemContents>{content}</ItemContents>
+    </ItemDiv>
   );
 }
 
