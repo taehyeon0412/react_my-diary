@@ -8,11 +8,13 @@ const DiaryTitle = styled.h2`
   justify-content: center;
   margin-top: 10px;
   margin-bottom: 10px;
+  font-weight: 700;
 `;
 
 const DiaryInfo = styled.h4`
   margin-bottom: 10px;
   padding-left: 20px;
+  font-weight: 700;
 `;
 
 const DiaryContents = styled.div`
