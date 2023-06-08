@@ -1,7 +1,8 @@
+import { useRef, useState } from "react";
 import DiaryEditor from "./components/DiaryEditor";
 import DiaryList from "./components/DiaryList";
 
-const dummyList = [
+/* const dummyList = [
   {
     id: 1,
     title: "1일차",
@@ -23,13 +24,29 @@ const dummyList = [
     emotion: 4,
     create_date: new Date().getTime(), //현재시간 기준
   },
-];
+]; */
 
 function App() {
+  const [data, setData] = useState([]);
+  const dataId = useRef(0);
+
+  const onCreate = (title, content, emotion) => {
+    const create_date = new Date().getTime(); //현재시간
+    const newItem = {
+      title,
+      content,
+      emotion,
+      create_date,
+      id: dataId.current,
+    };
+    dataId.current += 1; //dataId의 현재값은 +1씩 추가된다
+    setData([newItem, ...data]); // 새로운 아이템 + 기존데이터
+  };
+
   return (
     <>
-      <DiaryEditor />
-      <DiaryList diaryList={dummyList} />
+      <DiaryEditor onCreate={onCreate} />
+      <DiaryList diaryList={data} />
     </>
   );
 }

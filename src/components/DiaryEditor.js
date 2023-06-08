@@ -38,7 +38,7 @@ const SaveBtn = styled.button`
   width: 30rem;
 `;
 
-function DiaryEditor() {
+function DiaryEditor({ onCreate }) {
   const titleInput = useRef();
   const contentInput = useRef();
 
@@ -69,7 +69,14 @@ function DiaryEditor() {
       return;
     }
 
+    onCreate(state.title, state.content, state.emotion);
+    //App에서 넘어온 onCreate의 props에 내용을 각각 넣어준다
     alert("저장 성공");
+    setState({
+      title: "",
+      content: "",
+      emotion: 1,
+    }); //초기화
   };
   //저장
 
@@ -80,7 +87,7 @@ function DiaryEditor() {
         <TitleInput
           ref={titleInput}
           name="title"
-          value={state.author}
+          value={state.title}
           onChange={handleChangeState}
         />
       </TitleBox>
