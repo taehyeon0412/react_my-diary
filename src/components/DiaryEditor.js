@@ -53,7 +53,7 @@ function DiaryEditor({ onCreate }) {
       ...state,
       [event.target.name]: event.target.value,
     });
-    console.log(event.target.name);
+    /* console.log(event.target.name); */
   };
   //change 이벤트
 

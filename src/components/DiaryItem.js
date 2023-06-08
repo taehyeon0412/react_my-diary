@@ -29,7 +29,9 @@ const ItemContents = styled.div`
   font-weight: bold;
 `;
 
-function DiaryItem({ title, content, create_date, emotion, id }) {
+const ItemDeleteBtn = styled.button``;
+
+function DiaryItem({ title, content, create_date, emotion, id, onDelete }) {
   return (
     <ItemDiv>
       <ItemTitle>
@@ -41,6 +43,16 @@ function DiaryItem({ title, content, create_date, emotion, id }) {
       </ItemTitle>
 
       <ItemContents>{content}</ItemContents>
+
+      <ItemDeleteBtn
+        onClick={() => {
+          if (window.confirm(`${id}번째 일기를 정말 삭제하시겠습니까?`)) {
+            onDelete(id);
+          }
+        }}
+      >
+        삭제하기
+      </ItemDeleteBtn>
     </ItemDiv>
   );
 }

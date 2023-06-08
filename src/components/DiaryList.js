@@ -24,7 +24,7 @@ const DiaryContents = styled.div`
   padding: 20px;
 `;
 
-function DiaryList({ diaryList }) {
+function DiaryList({ diaryList, onDelete }) {
   console.log(diaryList);
   return (
     <Wrapper>
@@ -33,7 +33,7 @@ function DiaryList({ diaryList }) {
 
       <DiaryContents>
         {diaryList.map((it) => (
-          <DiaryItem key={it.id} {...it} />
+          <DiaryItem key={it.id} {...it} onDelete={onDelete} />
         ))}
       </DiaryContents>
     </Wrapper>
