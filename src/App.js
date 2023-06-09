@@ -48,13 +48,25 @@ function App() {
     const newDiaryList = data.filter((it) => it.id !== targetId);
     setData(newDiaryList);
   };
+  //삭제
+
+  const onEdit = (targetId, newContent) => {
+    setData(
+      data.map((it) =>
+        it.id === targetId ? { ...it, content: newContent } : it
+      )
+    );
+  };
+  //수정하기 완료 누르면 수행됨
 
   return (
     <>
       <DiaryEditor onCreate={onCreate} />
-      <DiaryList diaryList={data} onDelete={onDelete} />
+      <DiaryList onEdit={onEdit} diaryList={data} onDelete={onDelete} />
     </>
   );
 }
 
 export default App;
+
+//데이터 수정하기

@@ -1,3 +1,4 @@
+import { useRef, useState } from "react";
 import { styled } from "styled-components";
 
 const ItemDiv = styled.div`
@@ -29,9 +30,59 @@ const ItemContents = styled.div`
   font-weight: bold;
 `;
 
-const ItemDeleteBtn = styled.button``;
+const ItemBtn = styled.button``;
 
-function DiaryItem({ title, content, create_date, emotion, id, onDelete }) {
+const ItemEditArea = styled.textarea`
+  width: 100%;
+  height: 5rem;
+`;
+
+function DiaryItem({
+  title,
+  content,
+  create_date,
+  emotion,
+  id,
+  onDelete,
+  onEdit,
+}) {
+  const localContentInput = useRef();
+
+  const handleDelete = () => {
+    if (window.confirm(`${id}번째 일기를 정말 삭제하시겠습니까?`)) {
+      onDelete(id);
+    }
+  };
+  //삭제 핸들러
+
+  const [isEdit, setIsEdit] = useState(false);
+  const toggleIsEdit = () => {
+    setIsEdit(!isEdit);
+  };
+  const [localContent, setLocalContent] = useState(content);
+  //수정 핸들러
+
+  const handleQuitEdit = () => {
+    setIsEdit(false);
+    setLocalContent(content);
+  };
+  //수정취소 핸들러
+
+  const handleEdit = () => {
+    if (localContent.length < 5) {
+      localContentInput.current.focus();
+      return;
+    }
+
+    if (window.confirm(`${id}번 째 일기를 수정 하시겠습니까?`)) {
+      onEdit(id, localContent);
+      toggleIsEdit();
+    }
+  };
+  //수정완료 핸들러
+  /* onEdit에 id와 localContent를 전달해준다 전달해준값은 
+  부모요소인 DiaryList를 거쳐 최종적으로 App의 onEdit으로 전달된다 */
+
   return (
     <ItemDiv>
       <ItemTitle>
@@ -42,17 +93,31 @@ function DiaryItem({ title, content, create_date, emotion, id, onDelete }) {
         <ItemTitleDate>{new Date(create_date).toLocaleString()}</ItemTitleDate>
       </ItemTitle>
 
-      <ItemContents>{content}</ItemContents>
+      <ItemContents>
+        {isEdit ? (
+          <>
+            <ItemEditArea
+              ref={localContentInput}
+              value={localContent}
+              onChange={(e) => setLocalContent(e.target.value)}
+            />
+          </>
+        ) : (
+          <>{content}</>
+        )}
+      </ItemContents>
 
-      <ItemDeleteBtn
-        onClick={() => {
-          if (window.confirm(`${id}번째 일기를 정말 삭제하시겠습니까?`)) {
-            onDelete(id);
-          }
-        }}
-      >
-        삭제하기
-      </ItemDeleteBtn>
+      {isEdit ? (
+        <>
+          <ItemBtn onClick={handleQuitEdit}>수정 취소</ItemBtn>
+          <ItemBtn onClick={handleEdit}>수정 완료</ItemBtn>
+        </>
+      ) : (
+        <>
+          <ItemBtn onClick={handleDelete}>삭제하기</ItemBtn>
+          <ItemBtn onClick={toggleIsEdit}>수정하기</ItemBtn>
+        </>
+      )}
     </ItemDiv>
   );
 }
