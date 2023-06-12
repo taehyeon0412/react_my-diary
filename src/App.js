@@ -1,32 +1,32 @@
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import DiaryEditor from "./components/DiaryEditor";
 import DiaryList from "./components/DiaryList";
 
-/* const dummyList = [
-  {
-    id: 1,
-    title: "1일차",
-    content: "1일차 할 일",
-    emotion: 1,
-    create_date: new Date().getTime(), //현재시간 기준
-  },
-  {
-    id: 2,
-    title: "2일차",
-    content: "2일차 할 일",
-    emotion: 3,
-    create_date: new Date().getTime(), //현재시간 기준
-  },
-  {
-    id: 3,
-    title: "3일차",
-    content: "3일차 할 일",
-    emotion: 4,
-    create_date: new Date().getTime(), //현재시간 기준
-  },
-]; */
+// https://jsonplaceholder.typicode.com/posts
 
 function App() {
+  const getData = async () => {
+    const res = await (
+      await fetch(`https://jsonplaceholder.typicode.com/posts`)
+    ).json();
+
+    const initData = res.slice(0, 20).map((it) => {
+      return {
+        title: it.title,
+        content: it.body,
+        emotion: Math.floor(Math.random() * 5) + 1,
+        create_date: new Date().getTime(),
+        id: dataId.current++,
+      };
+    });
+
+    setData(initData);
+  };
+
+  useEffect(() => {
+    getData();
+  }, []);
+
   const [data, setData] = useState([]);
   const dataId = useRef(0);
 
