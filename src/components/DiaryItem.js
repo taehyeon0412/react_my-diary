@@ -1,4 +1,4 @@
-import { useRef, useState } from "react";
+import React, { memo, useEffect, useRef, useState } from "react";
 import { styled } from "styled-components";
 
 const ItemDiv = styled.div`
@@ -122,4 +122,4 @@ function DiaryItem({
   );
 }
 
-export default DiaryItem;
+export default React.memo(DiaryItem);

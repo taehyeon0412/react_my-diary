@@ -25,7 +25,6 @@ const DiaryContents = styled.div`
 `;
 
 function DiaryList({ onEdit, diaryList, onDelete }) {
-  console.log(diaryList);
   return (
     <Wrapper>
       <DiaryTitle>일기 리스트</DiaryTitle>
