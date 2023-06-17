@@ -1,5 +1,6 @@
-import React, { memo, useEffect, useRef, useState } from "react";
+import React, { memo, useContext, useEffect, useRef, useState } from "react";
 import { styled } from "styled-components";
+import { DiaryDispatchContext } from "../App";
 
 const ItemDiv = styled.div`
   background-color: rgb(240, 240, 240);
@@ -37,15 +38,9 @@ const ItemEditArea = styled.textarea`
   height: 5rem;
 `;
 
-function DiaryItem({
-  title,
-  content,
-  create_date,
-  emotion,
-  id,
-  onDelete,
-  onEdit,
-}) {
+function DiaryItem({ title, content, create_date, emotion, id }) {
+  const { onDelete, onEdit } = useContext(DiaryDispatchContext);
+
   const localContentInput = useRef();
 
   const handleDelete = () => {

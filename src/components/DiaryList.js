@@ -1,5 +1,7 @@
 import { styled } from "styled-components";
 import DiaryItem from "./DiaryItem";
+import { useContext } from "react";
+import { DiaryStateContext } from "../App";
 
 const Wrapper = styled.div``;
 
@@ -24,7 +26,9 @@ const DiaryContents = styled.div`
   padding: 20px;
 `;
 
-function DiaryList({ onEdit, diaryList, onDelete }) {
+function DiaryList() {
+  const diaryList = useContext(DiaryStateContext); //App의 conText 데이터를 가져옴
+
   return (
     <Wrapper>
       <DiaryTitle>일기 리스트</DiaryTitle>
@@ -32,7 +36,7 @@ function DiaryList({ onEdit, diaryList, onDelete }) {
 
       <DiaryContents>
         {diaryList.map((it) => (
-          <DiaryItem key={it.id} {...it} onEdit={onEdit} onDelete={onDelete} />
+          <DiaryItem key={it.id} {...it} />
         ))}
       </DiaryContents>
     </Wrapper>

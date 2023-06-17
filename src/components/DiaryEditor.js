@@ -1,5 +1,6 @@
-import React, { memo, useRef, useState } from "react";
+import React, { memo, useContext, useRef, useState } from "react";
 import styled from "styled-components";
+import { DiaryDispatchContext } from "../App";
 
 const Wrapper = styled.div`
   border: 1px solid gray;
@@ -38,7 +39,9 @@ const SaveBtn = styled.button`
   width: 30rem;
 `;
 
-function DiaryEditor({ onCreate }) {
+function DiaryEditor() {
+  const { onCreate } = useContext(DiaryDispatchContext);
+
   const titleInput = useRef();
   const contentInput = useRef();
 

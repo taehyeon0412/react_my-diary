@@ -1,4 +1,10 @@
-import { useCallback, useEffect, useReducer, useRef } from "react";
+import React, {
+  useCallback,
+  useEffect,
+  useMemo,
+  useReducer,
+  useRef,
+} from "react";
 import DiaryEditor from "./components/DiaryEditor";
 import DiaryList from "./components/DiaryList";
 
@@ -35,9 +41,12 @@ const reducer = (state, action) => {
 };
 //상태관리 useReducer의 reducer 함수
 
-function App() {
-  //const [data, setData] = useState([]);
+export const DiaryStateContext = React.createContext();
+//context
 
+export const DiaryDispatchContext = React.createContext();
+
+function App() {
   const [data, dispatch] = useReducer(reducer, []); // useReducer=상태관리함수
   const dataId = useRef(0);
 
@@ -108,11 +117,20 @@ function App() {
   }, []);
   //수정하기 완료 누르면 수행됨
 
+  const memoizedDispatches = useMemo(() => {
+    return { onCreate, onDelete, onEdit };
+  }, []);
+  //3개를 한꺼번에 묶어 provider의 값으로 보냄
+
   return (
-    <>
-      <DiaryEditor onCreate={onCreate} />
-      <DiaryList onEdit={onEdit} diaryList={data} onDelete={onDelete} />
-    </>
+    <DiaryStateContext.Provider value={data}>
+      <DiaryDispatchContext.Provider value={memoizedDispatches}>
+        <>
+          <DiaryEditor />
+          <DiaryList />
+        </>
+      </DiaryDispatchContext.Provider>
+    </DiaryStateContext.Provider>
   );
 }
 
